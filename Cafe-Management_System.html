@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cafe Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .item {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .item h3 {
+      margin: 5px 0;
+    }
+    .item button {
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .item button:hover {
+      background: #45a049;
+    }
+    #cart {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+    #total {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: right;
+    }
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .actions button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .pay {
+      background: #2196F3;
+      color: #fff;
+    }
+    .new-order {
+      background: #ff9800;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>☕ Cafe Management System</h1>
+
+    <div class="menu">
+      <div class="item">
+        <h3>Burger</h3>
+        <p>₹50</p>
+        <button onclick="addToCart('Burger', 50)">Add</button>
+      </div>
+      <div class="item">
+        <h3>Pizza</h3>
+        <p>₹120</p>
+        <button onclick="addToCart('Pizza', 120)">Add</button>
+      </div>
+      <div class="item">
+        <h3>Momos</h3>
+        <p>₹70</p>
+        <button onclick="addToCart('Momos', 70)">Add</button>
+      </div>
+      <div class="item">
+        <h3>Samosa</h3>
+        <p>₹20</p>
+        <button onclick="addToCart('Samosa', 20)">Add</button>
+      </div>
+      <div class="item">
+        <h3>Cold Coffee</h3>
+        <p>₹60</p>
+        <button onclick="addToCart('Cold Coffee', 60)">Add</button>
+      </div>
+      <div class="item">
+        <h3>Tea</h3>
+        <p>₹15</p>
+        <button onclick="addToCart('Tea', 15)">Add</button>
+      </div>
+    </div>
+
+    <div id="cart">
+      <h2>🛒 Your Order</h2>
+      <table id="cartTable">
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Total</th>
+        </tr>
+      </table>
+      <div id="total">Total: ₹0</div>
+      <div class="actions">
+        <button class="pay" onclick="makePayment()">Pay</button>
+        <button class="new-order" onclick="newOrder()">Cancle and New Order</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addToCart(name, price) {
+      let item = cart.find(i => i.name === name);
+      if (item) {
+        item.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const table = document.getElementById('cartTable');
+      table.innerHTML = `
+        <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Total</th>
+        </tr>`;
+      let total = 0;
+      cart.forEach(item => {
+        let row = `<tr>
+          <td>${item.name}</td>
+          <td>₹${item.price}</td>
+          <td>${item.qty}</td>
+          <td>₹${item.price * item.qty}</td>
+        </tr>`;
+        table.innerHTML += row;
+        total += item.price * item.qty;
+      });
+      document.getElementById('total').innerText = 'Total: ₹' + total;
+    }
+
+    function makePayment() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      alert('Payment of ₹' + total + ' successful! ✅');
+      let another = confirm('Do you want to place another order?');
+      if (another) {
+        newOrder();
+      } else {
+        cart = [];
+        renderCart();
+      }
+    }
+
+    function newOrder() {
+      cart = [];
+      renderCart();
+      alert('Start a new order!');
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
