@@ -1,213 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cafe Management System</title>
-  <style>
-    
-    body {
-      font-family: Arial, sans-serif;
-      background: lab(72.78% -26.05 -26.48);
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .item {
-      background: #d1ced9;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    .item h3 {
-      margin: 5px 0;
-    }
-    .item button {
-      background: #46bc4a;
-      color: #ffffff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .item button:hover {
-      background: #45a049;
-    }
-    #cart {
-      margin-top: 30px;
-      background: lab(94.32% -0.68 0.84);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    table, th, td {
-      border: 1px solid #0c0303;
-    }
-    th, td {
-      padding: 10px solid black ;
-      text-align: center;
-    }
-    #total {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: 18px;
-      text-align: right;
-    }
-    .actions {
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .actions button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    .pay {
-      background: #2196F3;
-      color: #ffffff;
-    }
-    .new-order {
-      background: hsl(36, 87%, 52%);
-      color: #fff;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>☕ Welcome to Cafe Management System</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cafe Management System</title>
 
-    <div class="menu">
-      <div class="item">
-        <h3>Burger</h3>
-        <p>₹50</p>
-        <button onclick="addToCart('Burger', 50)">Add</button>
-      </div>
-      <div class="item">
-        <h3>Pizza</h3>
-        <p>₹120</p>
-        <button onclick="addToCart('Pizza', 120)">Add</button>
-      </div>
-      <div class="item">
-        <h3>Momos</h3>
-        <p>₹70</p>
-        <button onclick="addToCart('Momos', 70)">Add</button>
-      </div>
-      <div class="item">
-        <h3>Samosa</h3>
-        <p>₹20</p>
-        <button onclick="addToCart('Samosa', 20)">Add</button>
-      </div>
-      <div class="item">
-        <h3>Cold Coffee</h3>
-        <p>₹60</p>
-        <button onclick="addToCart('Cold Coffee', 60)">Add</button>
-      </div>
-      <div class="item">
-        <h3>Tea</h3>
-        <p>₹15</p>
-        <button onclick="addToCart('Tea', 15)">Add</button>
-      </div>
-    </div>
-
-    <div id="cart">
-      <h2>🛒 Your Order</h2>
-      <table id="cartTable">
-        <tr>
-          <th>Item</th>
-          <th>Price</th>
-          <th>Qty</th>
-          <th>Total</th>
-        </tr>
-      </table>
-      <div id="total">Total: ₹0</div>
-      <div class="actions">
-        <button class="pay" onclick="makePayment()">Pay</button>
-        <button class="new-order" onclick="newOrder()">Cancle and New Order</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    let cart = [];
-
-    function addToCart(name, price) {
-      let item = cart.find(i => i.name === name);
-      if (item) {
-        item.qty++;
-      } else {
-        cart.push({ name, price, qty: 1 });
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: lab(72.78% -26.05 -26.48);
+        margin: 0;
+        padding: 0;
       }
-      renderCart();
-    }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      .menu {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .item {
+        background: #d1ced9;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .item h3 {
+        margin: 5px 0;
+      }
+      .item button {
+        background: #46bc4a;
+        color: #ffffff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .item button:hover {
+        background: #45a049;
+      }
+      #cart {
+        margin-top: 30px;
+        background: lab(94.32% -0.68 0.84);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #0c0303;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+      #total {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: right;
+      }
+      .actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+      }
+      .actions button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .pay {
+        background: #2196f3;
+        color: #ffffff;
+      }
+      .new-order {
+        background: hsl(36, 87%, 52%);
+        color: #fff;
+      }
 
-    function renderCart() {
-      const table = document.getElementById('cartTable');
-      table.innerHTML = `
-        <tr>
-          <th>Item</th>
-          <th>Price</th>
-          <th>Qty</th>
-          <th>Total</th>
-        </tr>`;
-      let total = 0;
-      cart.forEach(item => {
-        let row = `<tr>
+      /* QR Payment Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 320px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+      .modal-content img {
+        width: 200px;
+        height: 200px;
+        margin: 10px 0;
+      }
+      .close-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .confirm-btn {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>☕ Welcome to Cafe Management System :</h1>
+      <div class="menu">
+        <div class="item">
+          <h3>Burger</h3>
+          <p>₹50</p>
+          <button onclick="addToCart('Burger', 50)">Add</button>
+        </div>
+        <div class="item">
+          <h3>Pizza</h3>
+          <p>₹120</p>
+          <button onclick="addToCart('Pizza', 120)">Add</button>
+        </div>
+        <div class="item">
+          <h3>Momos</h3>
+          <p>40</p>
+          <button onclick="addToCart('Momos', 70)">Add</button>
+        </div>
+        <div class="item">
+          <h3>Samosa</h3>
+          <p>₹10</p>
+          <button onclick="addToCart('Samosa', 20)">Add</button>
+        </div>
+        <div class="item">
+          <h3>Cold Coffee</h3>
+          <p>₹30</p>
+          <button onclick="addToCart('Cold Coffee', 60)">Add</button>
+        </div>
+        <div class="item">
+          <h3>Tea</h3>
+          <p>₹15</p>
+          <button onclick="addToCart('Tea', 15)">Add</button>
+        </div>
+      </div>
+
+      <div id="cart">
+        <h2>🛒 Your Order</h2>
+        <table id="cartTable">
+          <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+          </tr>
+        </table>
+        <div id="total">Total: ₹0</div>
+        <div class="actions">
+          <button class="pay" onclick="openPaymentModal()">Pay</button>
+          <button class="new-order" onclick="newOrder()">
+            Cancel & New Order
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Payment Modal -->
+    <div class="modal" id="paymentModal">
+      <div class="modal-content">
+        <h3>Scan to Pay</h3>
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=guptaabhishek5051@okicici&pn=Cafe&am=0&cu=INR"
+          id="qrImage"
+          alt="QR Code"
+        />
+        <p id="qrAmountText">Amount: ₹0</p>
+        <div>
+          <button class="close-btn" onclick="closePaymentModal()">Close</button>
+          <button class="confirm-btn" onclick="confirmPayment()">
+            I’ve Paid
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      let cart = [];
+
+      function addToCart(name, price) {
+        let item = cart.find((i) => i.name === name);
+        if (item) item.qty++;
+        else cart.push({ name, price, qty: 1 });
+        renderCart();
+      }
+
+      function renderCart() {
+        const table = document.getElementById("cartTable");
+        table.innerHTML = `
+        <tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr>`;
+        let total = 0;
+        cart.forEach((item) => {
+          let row = `<tr>
           <td>${item.name}</td>
           <td>₹${item.price}</td>
           <td>${item.qty}</td>
           <td>₹${item.price * item.qty}</td>
         </tr>`;
-        table.innerHTML += row;
-        total += item.price * item.qty;
-      });
-      document.getElementById('total').innerText = 'Total: ₹' + total;
-    }
-
-    function makePayment() {
-      if (cart.length === 0) {
-        alert('Your cart is empty!');
-        return;
+          table.innerHTML += row;
+          total += item.price * item.qty;
+        });
+        document.getElementById("total").innerText = "Total: ₹" + total;
       }
-      let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      alert('Payment of ₹' + total + ' successful! ✅');
-      let another = confirm('Do you want to place another order?');
-      if (another) {
-        newOrder();
-      } else {
+
+      function openPaymentModal() {
+        if (cart.length === 0) {
+          alert("Your cart is empty!");
+          return;
+        }
+        let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        document.getElementById("qrAmountText").innerText = "Amount: ₹" + total;
+        // Update QR dynamically with amount
+        document.getElementById(
+          "qrImage"
+        ).src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=guptaabhishek5051@okicici&pn=Cafe&am=${total}&cu=INR`;
+        document.getElementById("paymentModal").style.display = "flex";
+      }
+
+      function closePaymentModal() {
+        document.getElementById("paymentModal").style.display = "none";
+      }
+
+      function confirmPayment() {
+        alert("✅ Payment confirmed successfully!");
+        closePaymentModal();
+        let another = confirm("Do you want to place another order?");
+        if (another) {
+          newOrder();
+        } else {
+          cart = [];
+          renderCart();
+        }
+      }
+
+      function newOrder() {
         cart = [];
         renderCart();
+        alert("Start a new order!");
       }
-    }
 
-    function newOrder() {
-      cart = [];
       renderCart();
-      alert('Start a new order!');
-    }
-
-    renderCart();
-  </script>
-</body>
+    </script>
+    
+  </body>
 </html>
